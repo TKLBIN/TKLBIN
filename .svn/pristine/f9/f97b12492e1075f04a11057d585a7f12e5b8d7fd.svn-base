@@ -1,0 +1,46 @@
+package com.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.model.AdminUser;
+import com.service.impl.AdminServiceImpl;
+
+@Controller
+@RequestMapping("/admin")
+public class AdminController {
+	
+	/**
+	 * 临时跳转功能,不必理会
+	 * @param path
+	 * @return
+	 */
+	@RequestMapping("jt/{path}")
+	public String toLogin(@PathVariable("path") String path){
+		return path;
+	}
+	/**
+	 * 进入主页
+	 */
+	@RequestMapping("/tohome")
+	public String toHome(){
+		return "/index/home";
+	}
+	@Autowired
+	private AdminServiceImpl adminimpl;
+	/**
+	 * 登陆方法
+	 */
+	@RequestMapping("login")
+	@ResponseBody
+	public String doLogin(AdminUser adminUser){
+		AdminUser user = adminimpl.dologin(adminUser);
+		if (user!=null) {
+			return "s";
+		}
+		return null;
+	}
+}

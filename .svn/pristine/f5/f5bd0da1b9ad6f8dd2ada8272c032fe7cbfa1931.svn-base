@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ExpressMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Express" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="express_name" property="expressName" jdbcType="VARCHAR" />
+    <result column="express_price" property="expressPrice" jdbcType="DECIMAL" />
+    <result column="express_img" property="expressImg" jdbcType="VARCHAR" />
+    <result column="express_img_real" property="expressImgReal" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, express_name, express_price, express_img, express_img_real
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from express
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from express
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.model.Express" >
+    insert into express (id, express_name, express_price, 
+      express_img, express_img_real)
+    values (#{id,jdbcType=INTEGER}, #{expressName,jdbcType=VARCHAR}, #{expressPrice,jdbcType=DECIMAL}, 
+      #{expressImg,jdbcType=VARCHAR}, #{expressImgReal,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Express" >
+    insert into express
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="expressName != null" >
+        express_name,
+      </if>
+      <if test="expressPrice != null" >
+        express_price,
+      </if>
+      <if test="expressImg != null" >
+        express_img,
+      </if>
+      <if test="expressImgReal != null" >
+        express_img_real,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="expressName != null" >
+        #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="expressPrice != null" >
+        #{expressPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="expressImg != null" >
+        #{expressImg,jdbcType=VARCHAR},
+      </if>
+      <if test="expressImgReal != null" >
+        #{expressImgReal,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Express" >
+    update express
+    <set >
+      <if test="expressName != null" >
+        express_name = #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="expressPrice != null" >
+        express_price = #{expressPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="expressImg != null" >
+        express_img = #{expressImg,jdbcType=VARCHAR},
+      </if>
+      <if test="expressImgReal != null" >
+        express_img_real = #{expressImgReal,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Express" >
+    update express
+    set express_name = #{expressName,jdbcType=VARCHAR},
+      express_price = #{expressPrice,jdbcType=DECIMAL},
+      express_img = #{expressImg,jdbcType=VARCHAR},
+      express_img_real = #{expressImgReal,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- wub -->
+  <select id="selAllExpress" resultType="com.model.Express"  >
+    select id,express_name,express_price,express_img,express_img_real
+    from express
+    <trim prefix="where"  >
+   <if test="expressName != null" >
+      express_name=#{expressName,jdbcType=CHAR}
+      </if>
+   </trim>
+  </select>
+</mapper>

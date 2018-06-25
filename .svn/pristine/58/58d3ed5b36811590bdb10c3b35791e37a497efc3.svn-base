@@ -1,0 +1,71 @@
+package com.controller;
+
+import java.io.IOException;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/home")
+public class HomeController {
+
+	/**
+	 * 跳转到不同的界面
+	 */
+	@RequestMapping("jthome/{path}")
+	public String jtPro(@PathVariable("path") String path) {
+		return "/index/" + path;
+	}
+
+	/**
+	 * 进入商品详情页时存入浏览cookie
+	 * 
+	 * @throws IOException
+	 */
+	@RequestMapping("/godetail")
+	public String saveCookieAndGoDetail(@PathParam("id") String id,HttpServletRequest request,
+			HttpServletResponse response,HttpSession session) throws IOException {
+		String historyId = "";
+		// 获取Cookie数据并遍历，看是否已经存在historyId这个Cookie
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null && cookies.length > 0) {
+			for (Cookie cookie : cookies) {
+				String name = cookie.getName();
+				String value = cookie.getValue();
+				if (name.equals("historyId")) {
+					// 存在historyId这个cookie的话，就将它赋值给historyId这个变量
+					historyId = value;
+					session.setAttribute("foot", historyId);
+					System.out.println("足迹:"+historyId);
+				}
+			}
+		}
+		// 当遍历=之后发现没有这个Cookie是，就创建historyId这个Cookie，并将商品id保存到其中
+		if (historyId == null || historyId.equals("")) {
+			id += ",";
+			System.out.println(id);
+			Cookie producthistoryCookie = new Cookie("historyId", id);
+			//设置cookie有效期10天
+			producthistoryCookie.setMaxAge(60*60*24*10);
+			response.addCookie(producthistoryCookie);
+		} else {
+			// 存在historyId这个Cookie时，就将最近浏览的id添加到字符串的最前面
+			historyId = "," + historyId;
+			historyId = historyId.replace("," + id + ",", ",");
+			String rs = id + historyId;
+
+			Cookie producthistoryCookie = new Cookie("historyId", rs);
+			response.addCookie(producthistoryCookie);
+		}
+		
+		
+		return "/index/product-detail";
+	}
+}

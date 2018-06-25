@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.CommentContentMapper">
+	<resultMap id="BaseResultMap" type="com.model.CommentContent">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="comment_level" property="commentLevel"
+			jdbcType="CHAR" />
+		<result column="is_pic" property="isPic" jdbcType="CHAR" />
+		<result column="product_id" property="productId" jdbcType="INTEGER" />
+		<result column="order_item_id" property="orderItemId" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.model.CommentContent"
+		extends="BaseResultMap">
+		<result column="comment_content" property="commentContent"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, comment_level, is_pic, product_id, order_item_id
+	</sql>
+	<sql id="Blob_Column_List">
+		comment_content
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from comment_content
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		comment_content
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.model.CommentContent">
+		insert into comment_content
+		(id, comment_level, is_pic,
+		product_id, order_item_id, comment_content
+		)
+		values (#{id,jdbcType=INTEGER}, #{commentLevel,jdbcType=CHAR},
+		#{isPic,jdbcType=CHAR},
+		#{productId,jdbcType=INTEGER},
+		#{orderItemId,jdbcType=INTEGER},
+		#{commentContent,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.model.CommentContent">
+		insert into comment_content
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="commentLevel != null">
+				comment_level,
+			</if>
+			<if test="isPic != null">
+				is_pic,
+			</if>
+			<if test="productId != null">
+				product_id,
+			</if>
+			<if test="orderItemId != null">
+				order_item_id,
+			</if>
+			<if test="commentContent != null">
+				comment_content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="commentLevel != null">
+				#{commentLevel,jdbcType=CHAR},
+			</if>
+			<if test="isPic != null">
+				#{isPic,jdbcType=CHAR},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=INTEGER},
+			</if>
+			<if test="orderItemId != null">
+				#{orderItemId,jdbcType=INTEGER},
+			</if>
+			<if test="commentContent != null">
+				#{commentContent,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.model.CommentContent">
+		update comment_content
+		<set>
+			<if test="commentLevel != null">
+				comment_level = #{commentLevel,jdbcType=CHAR},
+			</if>
+			<if test="isPic != null">
+				is_pic = #{isPic,jdbcType=CHAR},
+			</if>
+			<if test="productId != null">
+				product_id = #{productId,jdbcType=INTEGER},
+			</if>
+			<if test="orderItemId != null">
+				order_item_id = #{orderItemId,jdbcType=INTEGER},
+			</if>
+			<if test="commentContent != null">
+				comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.model.CommentContent">
+		update
+		comment_content
+		set comment_level = #{commentLevel,jdbcType=CHAR},
+		is_pic = #{isPic,jdbcType=CHAR},
+		product_id =
+		#{productId,jdbcType=INTEGER},
+		order_item_id =
+		#{orderItemId,jdbcType=INTEGER},
+		comment_content =
+		#{commentContent,jdbcType=LONGVARCHAR}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.model.CommentContent">
+		update
+		comment_content
+		set comment_level = #{commentLevel,jdbcType=CHAR},
+		is_pic = #{isPic,jdbcType=CHAR},
+		product_id =
+		#{productId,jdbcType=INTEGER},
+		order_item_id =
+		#{orderItemId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 获取评价信息 -->
+	<resultMap type="CommentContent" id="comments" autoMapping="true">
+		<id column="id" property="id" />
+		<association property="commentPic" autoMapping="true"
+			javaType="CommentPic">
+			<result column="pic_path" property="picPath" />
+		</association>
+		<association property="product" javaType="Product">
+			<id column="pid" property="id" />
+			<result column="cover_img" property="coverImg" />
+			<result column="product_name" property="productName" />
+			<result column="product_detail" property="productDetail" />
+		</association>
+		<association property="time" javaType="Orders">
+			<result column="create_time" property="createTime" />
+		</association>
+	</resultMap>
+	<select id="getComments" resultMap="comments" parameterType="Customer">
+		select
+		cc.*,cp.pic_path,p.cover_img,p.id
+		pid,p.product_name,p.product_detail,o.create_time
+		from
+		orders o
+		left join
+		order_item oi on o.id = oi.order_id
+		left join
+		comment_content cc on
+		cc.order_item_id = oi.id
+		left join
+		product p on
+		p.id = oi.product_id
+		left
+		join comment_pic cp on cp.comment_id = cc.id
+		where o.customer_id =
+		#{id}
+	</select>
+	<!-- 获取一件商品的评价条数 -->
+	<select id="getCountOfProduct" resultType="int" parameterType="int">
+		select count(*)
+		from comment_content cc,
+		product p where p.id =
+		cc.product_id and p.id = #{id}
+	</select>
+	<!-- 获取关于某件商品的评价 -->
+	<resultMap type="CommentContent" id="cm" autoMapping="true">
+		<id column="id" property="id"/>
+		<collection property="cPics" ofType="CommentPic">
+			<result column="pic_path" property="picPath"/>
+		</collection>
+		<collection property="chooseAttr" ofType="ChooseAttr">
+			<id column="ca_id" property="id"/>
+			<result column="attr_name" property="attrName"/>
+		</collection>
+		<collection property="chooseAttrValues" ofType="ChooseAttrValue">
+			<result column="cav_attrid" property="chooseAttrId"/>
+			<result column="attr_value" property="attrValue"/>
+		</collection>
+	</resultMap>
+	<select id="getCommentsOfOneProject" resultMap="cm" parameterType="int">
+		SELECT
+		cc.*, cp.pic_path,ca.id ca_id,ca.attr_name,cav.choose_attr_id cav_attrid,cav.attr_value
+		FROM
+		comment_content cc
+		LEFT JOIN comment_pic cp ON cc.id = cp.comment_id
+		LEFT JOIN choose_attr ca ON ca.product_id= cc.product_id
+		LEFT JOIN choose_attr_value cav on cav.choose_attr_id = ca.id
+		WHERE
+		cc.product_id = #{id}
+	</select>
+</mapper>

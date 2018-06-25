@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.dao.ClassifyRelationMapper">
+	<resultMap id="BaseResultMap" type="com.model.ClassifyRelation">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="classify_id" property="classifyId" jdbcType="INTEGER" />
+		<result column="classify_id_two" property="classifyIdTwo"
+			jdbcType="INTEGER" />
+		<result column="relation_order" property="relationOrder"
+			jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, classify_id, classify_id_two, relation_order
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from classify_relation
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		classify_relation
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.model.ClassifyRelation">
+		insert into classify_relation
+		(id, classify_id, classify_id_two,
+		relation_order)
+		values
+		(#{id,jdbcType=INTEGER}, #{classifyId,jdbcType=INTEGER},
+		#{classifyIdTwo,jdbcType=INTEGER},
+		#{relationOrder,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.model.ClassifyRelation">
+		insert into classify_relation
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="classifyId != null">
+				classify_id,
+			</if>
+			<if test="classifyIdTwo != null">
+				classify_id_two,
+			</if>
+			<if test="relationOrder != null">
+				relation_order,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="classifyId != null">
+				#{classifyId,jdbcType=INTEGER},
+			</if>
+			<if test="classifyIdTwo != null">
+				#{classifyIdTwo,jdbcType=INTEGER},
+			</if>
+			<if test="relationOrder != null">
+				#{relationOrder,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.model.ClassifyRelation">
+		update classify_relation
+		<set>
+			<if test="classifyId != null">
+				classify_id = #{classifyId,jdbcType=INTEGER},
+			</if>
+			<if test="classifyIdTwo != null">
+				classify_id_two = #{classifyIdTwo,jdbcType=INTEGER},
+			</if>
+			<if test="relationOrder != null">
+				relation_order = #{relationOrder,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.model.ClassifyRelation">
+		update
+		classify_relation
+		set classify_id = #{classifyId,jdbcType=INTEGER},
+		classify_id_two = #{classifyIdTwo,jdbcType=INTEGER},
+		relation_order =
+		#{relationOrder,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+  	
+  	<resultMap type="com.model.ClassifyRelation" id="relationMap"
+		autoMapping="true">
+	    <id column="id1" property="id"/>
+	    <result column="classify_id" property="classifyId"/>
+	    <result column="classify_id_two" property="classifyIdTwo"/>
+	    <result column="relation_order" property="relationOrder"/>
+		<association property="productClassify" javaType="com.model.ProductClassify">
+			<result column="classify_name" property="classifyName" />
+		</association>
+		<association property="productClassify1" javaType="com.model.ProductClassify">
+			<result column="classify_name_1" property="classifyName" />
+		</association>
+	</resultMap>
+  	
+  	
+  	
+  	
+  	<select id="select" resultMap="relationMap" parameterType="com.model.ClassifyRelation">
+  	select cr.id id1,pc.classify_name classify_name,
+	pc1.classify_name classify_name_1,cr.classify_id classify_id,
+	cr.classify_id_two classify_id_two,cr.relation_order relation_order
+  	from classify_relation cr left join
+  	product_classify pc on pc.id = cr.classify_id
+  	left join product_classify pc1 on pc1.id = cr.classify_id_two
+  	
+  	
+  	</select>
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>

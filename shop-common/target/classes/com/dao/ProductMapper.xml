@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ProductMapper">
+	<resultMap id="BaseResultMap" type="com.model.Product">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="product_volume" property="productVolume"
+			jdbcType="INTEGER" />
+		<result column="classify_sub_id" property="classifySubId"
+			jdbcType="INTEGER" />
+		<result column="product_param" property="productParam"
+			jdbcType="VARCHAR" />
+		<result column="cover_img" property="coverImg" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.model.Product"
+		extends="BaseResultMap">
+		<result column="product_detail" property="productDetail"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, product_name, product_volume, classify_sub_id,
+		product_param,
+		cover_img
+	</sql>
+	<sql id="Blob_Column_List">
+		product_detail
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		product
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.model.Product">
+		insert into product (id,
+		product_name, product_volume,
+		classify_sub_id, product_param,
+		cover_img,
+		product_detail)
+		values (#{id,jdbcType=INTEGER},
+		#{productName,jdbcType=VARCHAR},
+		#{productVolume,jdbcType=INTEGER},
+		#{classifySubId,jdbcType=INTEGER}, #{productParam,jdbcType=VARCHAR},
+		#{coverImg,jdbcType=VARCHAR},
+		#{productDetail,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.model.Product">
+		insert into product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="productName != null">
+				product_name,
+			</if>
+			<if test="productVolume != null">
+				product_volume,
+			</if>
+			<if test="classifySubId != null">
+				classify_sub_id,
+			</if>
+			<if test="productParam != null">
+				product_param,
+			</if>
+			<if test="coverImg != null">
+				cover_img,
+			</if>
+			<if test="productDetail != null">
+				product_detail,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="productName != null">
+				#{productName,jdbcType=VARCHAR},
+			</if>
+			<if test="productVolume != null">
+				#{productVolume,jdbcType=INTEGER},
+			</if>
+			<if test="classifySubId != null">
+				#{classifySubId,jdbcType=INTEGER},
+			</if>
+			<if test="productParam != null">
+				#{productParam,jdbcType=VARCHAR},
+			</if>
+			<if test="coverImg != null">
+				#{coverImg,jdbcType=VARCHAR},
+			</if>
+			<if test="productDetail != null">
+				#{productDetail,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.model.Product">
+		update product
+		<set>
+			<if test="productName != null">
+				product_name = #{productName,jdbcType=VARCHAR},
+			</if>
+			<if test="productVolume != null">
+				product_volume = #{productVolume,jdbcType=INTEGER},
+			</if>
+			<if test="classifySubId != null">
+				classify_sub_id = #{classifySubId,jdbcType=INTEGER},
+			</if>
+			<if test="productParam != null">
+				product_param = #{productParam,jdbcType=VARCHAR},
+			</if>
+			<if test="coverImg != null">
+				cover_img = #{coverImg,jdbcType=VARCHAR},
+			</if>
+			<if test="productDetail != null">
+				product_detail = #{productDetail,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.model.Product">
+		update
+		product
+		set product_name = #{productName,jdbcType=VARCHAR},
+		product_volume = #{productVolume,jdbcType=INTEGER},
+		classify_sub_id =
+		#{classifySubId,jdbcType=INTEGER},
+		product_param =
+		#{productParam,jdbcType=VARCHAR},
+		cover_img =
+		#{coverImg,jdbcType=VARCHAR},
+		product_detail =
+		#{productDetail,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.model.Product">
+		update product
+		set
+		product_name = #{productName,jdbcType=VARCHAR},
+		product_volume =
+		#{productVolume,jdbcType=INTEGER},
+		classify_sub_id =
+		#{classifySubId,jdbcType=INTEGER},
+		product_param =
+		#{productParam,jdbcType=VARCHAR},
+		cover_img =
+		#{coverImg,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<resultMap type="com.model.Product" id="foots" autoMapping="true">
+		<id column="id" property="id" />
+		<association property="pSku" javaType="com.model.ProductSku"
+			autoMapping="true">
+			<id column="psk_id" property="id" />
+		</association>
+	</resultMap>
+	<select id="getfoots" resultMap="foots">
+		select pt.*,
+		psk.id psk_id,psk.product_price,
+		psk.product_sale_price,psk.product_stock,
+		psk.sku_name
+		from product
+		pt,product_sku psk
+		<where>
+			<foreach item="i" collection="list">
+				or pt.id = psk.product_id and
+				pt.id= #{i}
+			</foreach>
+		</where>
+	</select>
+	<!-- 商品详情 -->
+	<resultMap type="com.model.Product" id="selectDetailOfProduct"
+		autoMapping="true">
+		<id column="id" property="id" />
+		<association property="pSku" javaType="ProductSku" autoMapping="true">
+			<result column="product_price" property="productPrice"/>
+			<result column="product_sale_price" property="productSalePrice"/>
+		</association>
+		<collection property="productAds" ofType="ProductAd"
+			autoMapping="true">
+			<result column="ad_path" property="adPath" />
+		</collection>
+		<collection property="productAttrs" ofType="ProductAttr"
+			autoMapping="true">
+			<id column="pat_id" property="id"/>
+			<result column="attr_name" property="attrName" />
+		</collection>
+		<collection property="productAttrValues" ofType="ProductAttrValue"
+				autoMapping="true">
+				<result column="patv_pat_id" property="attrId"/>
+				<result column="attr_value" property="attrValue"/>
+		</collection>
+	</resultMap>
+	<select id="getDetail" resultMap="selectDetailOfProduct"
+		parameterType="int">
+		SELECT
+		p.id,
+		p.product_name,
+		p.product_volume,
+		p.cover_img,
+		p.product_detail,
+		pa.ad_path,
+		psk.product_price,
+		psk.product_sale_price,
+		psk.product_stock,
+		pat.id pat_id,
+		pat.attr_name,
+		patv.attr_id patv_pat_id,
+		patv.attr_value
+		FROM
+		product p
+		LEFT JOIN
+		product_ad pa ON p.id = pa.product_id
+		LEFT JOIN product_sku psk ON p.id
+		= psk.product_id
+		LEFT JOIN product_pic ppc ON p.id = ppc.product_id
+		LEFT JOIN product_attr pat ON psk.sku_id like CONCAT("%",pat.id,"%")
+		LEFT JOIN product_attr_value patv ON pat.id = patv.attr_id
+		WHERE
+		p.id =
+		#{id}
+	</select>
+
+	<resultMap type="com.model.Product" id="productByProNameMap"
+		autoMapping="true">
+		<id column="id" property="id" />
+		<association property="pSku" javaType="com.model.ProductSku"
+			autoMapping="true">
+			<id column="pck_id" property="id" />
+		</association>
+		<association property="commentContent" javaType="com.model.CommentContent"
+			autoMapping="true">
+			<id column="cc_id" property="id" />
+		</association>
+		<association property="productClassifySub" javaType="com.model.ProductClassifySub"
+			autoMapping="true">
+			<id column="pcs_id" property="id" />
+		</association>
+		<association property="productClassify" javaType="com.model.ProductClassify"
+			autoMapping="true">
+			<id column="pc_id" property="id" />
+		</association>
+	</resultMap>
+	<select id="selectByProName" resultMap="productByProNameMap"
+		parameterType="Product">
+		select
+		p.id id,
+		p.product_name,
+		p.product_volume,
+		p.classify_sub_id,
+		p.product_detail,
+		p.product_param,
+		psk.id psk_id,
+		psk.product_price,
+		psk.product_id product_id,
+		psk.product_sale_price,
+		cc.id cc_id,
+		cc.comment_content,
+		cc.comment_level,
+		pcs.id pcs_id,
+		pcs.classify_sub_name,
+		pcs.sub_order,
+		pcs.classify_id,
+		pcs.sub_is_on,
+		pc.id pc_id,
+		pc.classify_name,
+		pc.c_order,
+		pc.is_on
+		FROM
+		product p LEFT JOIN product_sku psk on psk.product_id=p.id
+		LEFT JOIN comment_content cc on cc.product_id =p.id
+		left JOIN product_classify_sub pcs on
+		p.classify_sub_id=pcs.id
+		LEFT JOIN
+		product_classify pc on pcs.classify_id = pc.id
+		<where>
+			<if test="productName!=null and productName!=''">
+				p.product_name=#{productName}
+			</if>
+			<if test="classifyId!=null">
+			         
+			     and pc.id=#{classifyId}
+			</if>
+			<if test="classifySubId!=null">
+			         
+			     and pcs.id=#{classifySubId}
+			</if>
+		</where>
+
+
+	</select>
+	
+  
+
+</mapper>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.OrdersMapper">
+	<resultMap id="BaseResultMap" type="com.model.Orders">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="CHAR" />
+		<result column="order_prcie" property="orderPrcie" jdbcType="DECIMAL" />
+		<result column="pay_price" property="payPrice" jdbcType="DECIMAL" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="customer_id" property="customerId" jdbcType="INTEGER" />
+		<result column="express_name" property="expressName" jdbcType="VARCHAR" />
+		<result column="express_price" property="expressPrice"
+			jdbcType="DECIMAL" />
+	</resultMap>
+	<resultMap type="com.model.Orders" id="OrdersMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="CHAR" />
+		<result column="order_prcie" property="orderPrcie" jdbcType="DECIMAL" />
+		<result column="pay_price" property="payPrice" jdbcType="DECIMAL" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="customer_id" property="customerId" jdbcType="INTEGER" />
+		<result column="express_name" property="expressName" jdbcType="VARCHAR" />
+		<result column="express_price" property="expressPrice"
+			jdbcType="DECIMAL" />
+		<collection property="productList" autoMapping="true"
+			ofType="Product">
+			<id column="id" property="id" />
+			<!-- 其他属性交给驼峰进行自动映射 -->
+		</collection>
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, order_no, order_status, order_prcie, pay_price,
+		create_time,
+		pay_time, customer_id,
+		express_name, express_price
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from orders
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from orders
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.model.Orders">
+		insert into orders (id,
+		order_no, order_status,
+		order_prcie, pay_price, create_time,
+		pay_time,
+		customer_id, express_name,
+		express_price)
+		values
+		(#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR},
+		#{orderStatus,jdbcType=CHAR},
+		#{orderPrcie,jdbcType=DECIMAL},
+		#{payPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+		#{payTime,jdbcType=TIMESTAMP}, #{customerId,jdbcType=INTEGER},
+		#{expressName,jdbcType=VARCHAR},
+		#{expressPrice,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective" parameterType="com.model.Orders">
+		insert into orders
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="orderNo != null">
+				order_no,
+			</if>
+			<if test="orderStatus != null">
+				order_status,
+			</if>
+			<if test="orderPrcie != null">
+				order_prcie,
+			</if>
+			<if test="payPrice != null">
+				pay_price,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="payTime != null">
+				pay_time,
+			</if>
+			<if test="customerId != null">
+				customer_id,
+			</if>
+			<if test="expressName != null">
+				express_name,
+			</if>
+			<if test="expressPrice != null">
+				express_price,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="orderNo != null">
+				#{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="orderStatus != null">
+				#{orderStatus,jdbcType=CHAR},
+			</if>
+			<if test="orderPrcie != null">
+				#{orderPrcie,jdbcType=DECIMAL},
+			</if>
+			<if test="payPrice != null">
+				#{payPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payTime != null">
+				#{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="customerId != null">
+				#{customerId,jdbcType=INTEGER},
+			</if>
+			<if test="expressName != null">
+				#{expressName,jdbcType=VARCHAR},
+			</if>
+			<if test="expressPrice != null">
+				#{expressPrice,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.model.Orders">
+		update orders
+		<set>
+			<if test="orderNo != null">
+				order_no = #{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="orderStatus != null">
+				order_status = #{orderStatus,jdbcType=CHAR},
+			</if>
+			<if test="orderPrcie != null">
+				order_prcie = #{orderPrcie,jdbcType=DECIMAL},
+			</if>
+			<if test="payPrice != null">
+				pay_price = #{payPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="customerId != null">
+				customer_id = #{customerId,jdbcType=INTEGER},
+			</if>
+			<if test="expressName != null">
+				express_name = #{expressName,jdbcType=VARCHAR},
+			</if>
+			<if test="expressPrice != null">
+				express_price = #{expressPrice,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.model.Orders">
+		update orders
+		set
+		order_no = #{orderNo,jdbcType=VARCHAR},
+		order_status =
+		#{orderStatus,jdbcType=CHAR},
+		order_prcie =
+		#{orderPrcie,jdbcType=DECIMAL},
+		pay_price =
+		#{payPrice,jdbcType=DECIMAL},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		pay_time =
+		#{payTime,jdbcType=TIMESTAMP},
+		customer_id =
+		#{customerId,jdbcType=INTEGER},
+		express_name =
+		#{expressName,jdbcType=VARCHAR},
+		express_price =
+		#{expressPrice,jdbcType=DECIMAL}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectById" parameterType="java.lang.Integer"
+		resultMap="OrdersMap">
+		select
+		id,
+		order_no,
+		order_status,
+		order_prcie,
+		pay_price,
+		create_time,
+		pay_time,
+		customer_id,
+		express_name,
+		express_price
+		from orders
+		o left join product p on o.id =p.
+		where id=#{id}
+	</select>
+	<!-- 通过session中的customer的id查询订单 -->
+	<resultMap type="com.model.Orders" id="OrdersCusMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="CHAR" />
+		<result column="order_prcie" property="orderPrcie" jdbcType="DECIMAL" />
+		<result column="pay_price" property="payPrice" jdbcType="DECIMAL" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="customer_id" property="customerId" jdbcType="INTEGER" />
+		<result column="express_name" property="expressName" jdbcType="VARCHAR" />
+		<result column="express_price" property="expressPrice"
+			jdbcType="DECIMAL" />
+		<collection property="listOrderItem" autoMapping="true"
+			ofType="OrderItem">
+			<id column="oi_id" property="id" />
+			<!-- 其他属性交给驼峰进行自动映射 -->
+			<association property="orderItmeAttr" javaType="com.model.OrderItmeAttr"
+				autoMapping="true">
+				<id column="oia_id" property="id" />
+			</association>
+			<association property="product" javaType="com.model.Product"
+				autoMapping="true">
+				<id column="p_id" property="id" />
+			</association>
+		</collection>
+
+	</resultMap>
+	<select id="selectByCusId" parameterType="Orders"
+		resultMap="OrdersCusMap">
+		SELECT
+		o.id id,
+		o.order_no order_no,
+		o.order_status
+		order_status,
+		o.order_prcie order_prcie,
+		o.pay_price pay_price,
+		o.create_time create_time,
+		o.pay_time pay_time,
+		o.customer_id customer_id,
+		o.express_name express_name,
+		o.express_price express_price,
+		oi.id oi_id,
+		oi.order_id ,
+		oi.product_id,
+		oi.product_price,
+		oi.buy_count,
+		oi.is_assess,
+		oia.id oia_id,
+		oia.choose_attr,
+		oia.choose_attr_value,
+		oia.order_item_id,
+		p.id p_id,
+		p.product_name,
+		p.product_volume,
+		p.classify_sub_id,
+		p.product_detail,
+		p.product_param,
+		p.cover_img
+		from orders o LEFT JOIN order_item oi on o.id=oi.order_id
+		LEFT JOIN order_itme_attr oia on oi.id=oia.order_item_id
+		LEFT JOIN product p on p.id=oi.product_id
+		<where>
+		  <if test="customerId!=null">
+		     and  o.customer_id=#{customerId}
+		  </if>
+		  <if test="id!=null">
+		     and  o.id=#{id}
+		  </if>
+		</where>
+	</select>
+    <update id="updateOrderStatusById" parameterType="Integer">
+		update orders
+		set
+		order_status =0
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	 <update id="confirmOrder" parameterType="Integer">
+		update orders
+		set
+		order_status =4
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

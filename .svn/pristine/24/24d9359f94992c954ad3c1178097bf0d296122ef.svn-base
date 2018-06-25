@@ -1,0 +1,31 @@
+package com.controller;
+
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.model.ProductAttr;
+import com.model.ProductAttrValue;
+import com.service.impl.AttrServiceImpl;
+
+
+
+
+@Controller
+@RequestMapping("/attr")
+public class AttrController {
+	@Autowired
+	private AttrServiceImpl attrServiceImpl;
+@RequestMapping("/listAttr")
+public String listAttr(ProductAttr productAttr,HttpServletRequest request){
+	
+	List<ProductAttr>productAttrlist = attrServiceImpl.selAllAttr(productAttr);
+	request.setAttribute("productAttrlist", productAttrlist);
+	return "attr/list-attr";
+}
+}

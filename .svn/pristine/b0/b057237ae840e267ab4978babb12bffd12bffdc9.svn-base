@@ -1,0 +1,11 @@
+package com.service;
+
+import com.model.ProductClassifySub;
+
+public interface ProductClassifySubService {
+	
+	
+	
+	ProductClassifySub selectById(ProductClassifySub productClassifySub);
+
+}

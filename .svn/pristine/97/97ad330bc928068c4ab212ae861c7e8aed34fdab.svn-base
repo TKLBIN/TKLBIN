@@ -1,0 +1,39 @@
+package com.dao;
+
+import java.util.List;
+
+import com.model.Customer;
+import com.model.ShopAddress;
+
+public interface ShopAddressMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(ShopAddress record);
+
+    int insertSelective(ShopAddress record);
+
+    ShopAddress selectByPrimaryKey(Integer id);
+    
+    ShopAddress selectByCusIdAndDau(Customer customer);
+
+    int updateByPrimaryKeySelective(ShopAddress record);
+
+    int updateByPrimaryKey(ShopAddress record);
+    //获取收货地址
+    List<ShopAddress> selectList(Customer customer);
+    /**
+     * 新增收货地址
+     */
+    boolean insertAdd(ShopAddress shopAddress);
+    /**
+     * 修改收货地址
+     */
+    boolean upAdd(ShopAddress shopAddress);
+    //设置默认地址
+    boolean setmo(ShopAddress shopAddress);
+    /**
+     * 取消其他地址的默认
+     */
+    boolean qumo(ShopAddress shopAddress);
+    
+}

@@ -1,0 +1,7 @@
+package com.service;
+
+import com.model.AdminUser;
+
+public interface AdminService {
+	AdminUser dologin(AdminUser adminUser);
+}

@@ -1,0 +1,132 @@
+package com.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dao.CustomerCouponMapper;
+import com.dao.CustomerMapper;
+import com.dao.ProductMapper;
+import com.dao.ShopAddressMapper;
+import com.model.Customer;
+import com.model.CustomerCoupon;
+import com.model.Product;
+import com.model.ShopAddress;
+import com.service.UserService;
+
+@Service
+public class UserServiceImpl implements UserService {
+	@Autowired
+	private CustomerMapper cMapper;
+	@Autowired
+	private ShopAddressMapper address;
+	@Autowired
+	private CustomerCouponMapper cCoupon;
+	@Autowired
+	private ProductMapper productMapper;
+
+	@Override
+	public Customer tologin(Customer customer) {
+		return cMapper.selectByCustomer(customer);
+	}
+
+	@Override
+	public boolean pwdModifyById(Customer customer) {
+		return cMapper.modifyPwd(customer);
+	}
+
+	@Override
+	public boolean modifyPay(Customer customer) {
+		return cMapper.modifypay(customer);
+	}
+
+	@Override
+	public boolean updateCus(Customer customer) {
+		
+		return cMapper.updateByCus(customer);
+	}
+	
+	@Override
+	public boolean modifyEmail(Customer customer) {
+		return cMapper.modifyEma(customer);
+	}
+
+	@Override
+	public boolean modifyidcard(Customer customer) {
+		return cMapper.modifyidcard(customer);
+	}
+
+	@Override
+	public Customer selectByEmail(Customer customer) {
+		// TODO Auto-generated method stub
+		return cMapper.selectByEmail(customer);
+	}
+
+	@Override
+	public boolean setMo(ShopAddress shopAddress) {
+		return address.setmo(shopAddress);
+	}
+
+	@Override
+	public boolean quMo(ShopAddress shopAddress) {
+		return address.qumo(shopAddress);
+	}
+
+	@Override
+	public boolean deladd(Integer id) {
+		if (address.deleteByPrimaryKey(id)>0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<CustomerCoupon> getCouponList(Customer customer) {
+		return cCoupon.selectAllCoupon(customer);
+	}
+
+	@Override
+	public boolean delPathCou(Integer id) {
+		if (cCoupon.deleteByPrimaryKey(id)>0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<Product> footList(List foot) {
+		return productMapper.getfoots(foot);
+	}
+
+	@Override
+	public Customer selectByPhone(Customer customer) {
+		// TODO Auto-generated method stub
+		return cMapper.selectByPhone(customer);
+	}
+
+	@Override
+	public boolean insert(Customer customer) {
+		int f=cMapper.insertSelective(customer);
+		if(f>0){
+			return true;
+		}
+		return false;
+	}
+
+
+	@Override
+	public List<ShopAddress> getAdds(Customer customer) {
+		return (List<ShopAddress>) address.selectList(customer);
+	}
+
+	@Override
+	public boolean insertAdd(ShopAddress shopAddress) {
+		return address.insertAdd(shopAddress);
+	}
+
+	@Override
+	public boolean upadd(ShopAddress shopAddress) {
+		return address.upAdd(shopAddress);
+	}
+}

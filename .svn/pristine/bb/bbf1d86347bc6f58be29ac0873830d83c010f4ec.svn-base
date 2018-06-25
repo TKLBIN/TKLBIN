@@ -1,0 +1,43 @@
+package com.model;
+
+public class ClassifyRelation {
+    private Integer id;
+
+    private Integer classifyId;
+
+    private Integer classifyIdTwo;
+
+    private Integer relationOrder;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getClassifyId() {
+        return classifyId;
+    }
+
+    public void setClassifyId(Integer classifyId) {
+        this.classifyId = classifyId;
+    }
+
+    public Integer getClassifyIdTwo() {
+        return classifyIdTwo;
+    }
+
+    public void setClassifyIdTwo(Integer classifyIdTwo) {
+        this.classifyIdTwo = classifyIdTwo;
+    }
+
+    public Integer getRelationOrder() {
+        return relationOrder;
+    }
+
+    public void setRelationOrder(Integer relationOrder) {
+        this.relationOrder = relationOrder;
+    }
+}

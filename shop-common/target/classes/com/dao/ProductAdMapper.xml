@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ProductAdMapper" >
+  <resultMap id="BaseResultMap" type="com.model.ProductAd" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ad_path" property="adPath" jdbcType="VARCHAR" />
+    <result column="ad_real_path" property="adRealPath" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="is_show" property="isShow" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ad_path, ad_real_path, product_id, is_show
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_ad
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_ad
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.model.ProductAd" >
+    insert into product_ad (id, ad_path, ad_real_path, 
+      product_id, is_show)
+    values (#{id,jdbcType=INTEGER}, #{adPath,jdbcType=VARCHAR}, #{adRealPath,jdbcType=VARCHAR}, 
+      #{productId,jdbcType=INTEGER}, #{isShow,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.ProductAd" >
+    insert into product_ad
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="adPath != null" >
+        ad_path,
+      </if>
+      <if test="adRealPath != null" >
+        ad_real_path,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="adPath != null" >
+        #{adPath,jdbcType=VARCHAR},
+      </if>
+      <if test="adRealPath != null" >
+        #{adRealPath,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.ProductAd" >
+    update product_ad
+    <set >
+      <if test="adPath != null" >
+        ad_path = #{adPath,jdbcType=VARCHAR},
+      </if>
+      <if test="adRealPath != null" >
+        ad_real_path = #{adRealPath,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.ProductAd" >
+    update product_ad
+    set ad_path = #{adPath,jdbcType=VARCHAR},
+      ad_real_path = #{adRealPath,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=INTEGER},
+      is_show = #{isShow,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

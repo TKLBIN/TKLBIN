@@ -1,0 +1,23 @@
+package com.service.impl;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dao.ProductClassifyMapper;
+import com.model.ProductClassify;
+import com.service.ProductClassifyService;
+@Service
+public class ProductClassifyServiceImpl implements ProductClassifyService{
+    
+	@Autowired
+	private ProductClassifyMapper proClaMapper;
+	@Override
+	public ProductClassify selectById(ProductClassify productClassify) {
+	
+		return proClaMapper.selectById(productClassify);
+		
+	}
+	
+
+}

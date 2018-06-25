@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ProductClassifyMapper">
+	<resultMap id="BaseResultMap" type="com.model.ProductClassify">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="classify_name" property="classifyName"
+			jdbcType="VARCHAR" />
+		<result column="c_order" property="cOrder" jdbcType="INTEGER" />
+		<result column="is_on" property="isOn" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, classify_name, c_order, is_on
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from product_classify
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		product_classify
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.model.ProductClassify">
+		insert into product_classify
+		(id, classify_name, c_order,
+		is_on)
+		values (#{id,jdbcType=INTEGER},
+		#{classifyName,jdbcType=VARCHAR},
+		#{cOrder,jdbcType=INTEGER},
+		#{isOn,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.model.ProductClassify">
+		insert into product_classify
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="classifyName != null">
+				classify_name,
+			</if>
+			<if test="cOrder != null">
+				c_order,
+			</if>
+			<if test="isOn != null">
+				is_on,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="classifyName != null">
+				#{classifyName,jdbcType=VARCHAR},
+			</if>
+			<if test="cOrder != null">
+				#{cOrder,jdbcType=INTEGER},
+			</if>
+			<if test="isOn != null">
+				#{isOn,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.model.ProductClassify">
+		update product_classify
+		<set>
+			<if test="classifyName != null">
+				classify_name = #{classifyName,jdbcType=VARCHAR},
+			</if>
+			<if test="cOrder != null">
+				c_order = #{cOrder,jdbcType=INTEGER},
+			</if>
+			<if test="isOn != null">
+				is_on = #{isOn,jdbcType=CHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.model.ProductClassify">
+		update
+		product_classify
+		set classify_name = #{classifyName,jdbcType=VARCHAR},
+		c_order = #{cOrder,jdbcType=INTEGER},
+		is_on = #{isOn,jdbcType=CHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="select" resultType="ProductClassify" parameterType="ProductClassify">
+		select * from product_classify
+		<where>
+			<if test="classifyName !=null and classifyName !=''">
+				and classify_name like concat('%',#{classifyName},'%')
+			</if>
+			<if test="id !=null">
+				and id=#{id}
+			</if>
+
+		</where>
+
+	</select>
+
+	<select id="selectDelete" resultType="int" parameterType="ProductClassify">
+		select
+		count(*) from
+		product_classify pc,
+		product_classify_sub pcs
+		where pc.id=
+		pcs.classify_id
+		and pc.id=#{id};
+	</select>
+	<resultMap type="ProductClassify" id="productClassMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="classify_name" property="classifyName"
+			jdbcType="VARCHAR" />
+		<result column="c_order" property="cOrder" jdbcType="INTEGER" />
+		<result column="is_on" property="isOn" jdbcType="CHAR" />
+		<collection property="listProClassifySub" autoMapping="true"
+			ofType="ProductClassifySub">
+			<id column="pcs_id" property="id" />
+
+			<!-- 其他属性交给驼峰进行自动映射 -->
+		</collection>
+	</resultMap>
+	<select id="selectById" resultMap="productClassMap"
+		parameterType="ProductClassify">
+		select
+		pc.id id,
+		pc.classify_name classify_name,
+		pc.c_order c_order,
+		pc.is_on is_on,
+		pcs.id pcs_id,
+		pcs.classify_sub_name classify_sub_name
+		from product_classify pc left join product_classify_sub pcs on
+		pcs.classify_id =pc.id
+		<where>
+			<if test="id!=null and id!=''">
+				pc.id=#{id}
+			</if>
+		</where>
+	</select>
+
+
+
+   
+
+</mapper>

@@ -1,0 +1,44 @@
+package com.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.model.ProductClassifySub;
+import com.service.impl.ProductSubClassifyService;
+
+@Controller
+@RequestMapping("/sub")
+public class ProductSubClassifyController {
+	@Autowired
+	private ProductSubClassifyService productSubClassifyService;
+	
+	//跳转到子分类页面
+	@RequestMapping("/toselect")
+	public String toselect(ModelMap modelMap,ProductClassifySub productClassifySub){
+		List<ProductClassifySub> subList = productSubClassifyService.select(productClassifySub);
+		modelMap.addAttribute("subList", subList);
+		
+		return "classify/list-sub-classify";
+	} 
+	//跳转到新增页面(查询所有分类)
+	@RequestMapping("/toInsert")
+	public String toInsert(){
+		
+		return"classify/edit-sub-classify";
+	}
+	
+	
+	
+	//新增子分类
+	@RequestMapping("/insert")
+	public String insert(ProductClassifySub productClassifySub){
+		int i = productSubClassifyService.insertSelective(productClassifySub);
+		return"";
+	}
+	
+	
+}

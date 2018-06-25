@@ -1,0 +1,40 @@
+package com.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dao.ShoppingCarMapper;
+import com.model.ShoppingCar;
+import com.model.ShoppingCarAttr;
+import com.service.ShopcarService;
+
+@Service
+public class ShopCarServiceImpl implements ShopcarService {
+
+	@Autowired
+	private ShoppingCarMapper carMapper;
+	
+	@Override
+	public boolean insertCar(ShoppingCar car) {
+		
+		return carMapper.insertCar(car);
+	}
+
+	@Override
+	public int getCarId() {
+		// TODO Auto-generated method stub
+		return carMapper.getShopCarId();
+	}
+
+	@Override
+	public boolean insertCarShuxing(List<ShoppingCarAttr> carAttrs) {
+		return carMapper.insertCarTable(carAttrs);
+	}
+	public List<ShoppingCar> selCar(ShoppingCar shoppingCar){
+		
+		 List<ShoppingCar> car=carMapper.seldingdan(shoppingCar);
+		return car;
+	}
+}

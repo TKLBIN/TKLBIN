@@ -1,0 +1,29 @@
+package com.dao;
+
+import com.model.Customer;
+
+public interface CustomerMapper {
+	int deleteByPrimaryKey(Integer id);
+
+	int insert(Customer record);
+
+	int insertSelective(Customer record);
+
+	Customer selectByPrimaryKey(Integer id);
+
+	Customer selectByEmail(Customer customer);
+
+	Customer selectByPhone(Customer customer);
+
+	int updateByPrimaryKeySelective(Customer record);
+
+	int updateByPrimaryKey(Customer record);
+	boolean updateByCus(Customer customer);
+
+	// µÇÂ½
+	Customer selectByCustomer(Customer customer);
+	//ĞŞ¸ÄÃÜÂë
+	boolean modifyPwd(Customer customer);
+	//ĞŞ¸ÄÖ§¸¶ÃÜÂë
+	boolean modifypay(Customer customer);
+}

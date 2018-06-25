@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.CommentContentMapper" >
+  <resultMap id="BaseResultMap" type="com.model.CommentContent" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="comment_level" property="commentLevel" jdbcType="CHAR" />
+    <result column="is_pic" property="isPic" jdbcType="CHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="order_item_id" property="orderItemId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.model.CommentContent" extends="BaseResultMap" >
+    <result column="comment_content" property="commentContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, comment_level, is_pic, product_id, order_item_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    comment_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment_content
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment_content
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.model.CommentContent" >
+    insert into comment_content (id, comment_level, is_pic, 
+      product_id, order_item_id, comment_content
+      )
+    values (#{id,jdbcType=INTEGER}, #{commentLevel,jdbcType=CHAR}, #{isPic,jdbcType=CHAR}, 
+      #{productId,jdbcType=INTEGER}, #{orderItemId,jdbcType=INTEGER}, #{commentContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.CommentContent" >
+    insert into comment_content
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="commentLevel != null" >
+        comment_level,
+      </if>
+      <if test="isPic != null" >
+        is_pic,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="orderItemId != null" >
+        order_item_id,
+      </if>
+      <if test="commentContent != null" >
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="commentLevel != null" >
+        #{commentLevel,jdbcType=CHAR},
+      </if>
+      <if test="isPic != null" >
+        #{isPic,jdbcType=CHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null" >
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.CommentContent" >
+    update comment_content
+    <set >
+      <if test="commentLevel != null" >
+        comment_level = #{commentLevel,jdbcType=CHAR},
+      </if>
+      <if test="isPic != null" >
+        is_pic = #{isPic,jdbcType=CHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="orderItemId != null" >
+        order_item_id = #{orderItemId,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null" >
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.model.CommentContent" >
+    update comment_content
+    set comment_level = #{commentLevel,jdbcType=CHAR},
+      is_pic = #{isPic,jdbcType=CHAR},
+      product_id = #{productId,jdbcType=INTEGER},
+      order_item_id = #{orderItemId,jdbcType=INTEGER},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.CommentContent" >
+    update comment_content
+    set comment_level = #{commentLevel,jdbcType=CHAR},
+      is_pic = #{isPic,jdbcType=CHAR},
+      product_id = #{productId,jdbcType=INTEGER},
+      order_item_id = #{orderItemId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

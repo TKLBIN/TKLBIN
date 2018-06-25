@@ -1,0 +1,29 @@
+package com.dao;
+
+import java.util.List;
+
+import com.model.ClassifyRelation;
+import com.model.Product;
+
+public interface ProductMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Product record);
+
+    int insertSelective(Product record);
+
+    Product selectByPrimaryKey(Integer id);
+    List<ClassifyRelation> select(ClassifyRelation classifyRelation);
+    int updateByPrimaryKeySelective(Product record);
+
+    int updateByPrimaryKeyWithBLOBs(Product record);
+
+    int updateByPrimaryKey(Product record);
+    /**
+     * ×ã¼£¹¦ÄÜ
+     * @param foot
+     * @return
+     */
+    List<Product> getfoots(List foot);
+    List<Product> selectByProName(Product product);
+}

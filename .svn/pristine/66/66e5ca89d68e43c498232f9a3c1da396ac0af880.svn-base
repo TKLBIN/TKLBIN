@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.OrderItmeAttrMapper" >
+  <resultMap id="BaseResultMap" type="com.model.OrderItmeAttr" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="choose_attr" property="chooseAttr" jdbcType="VARCHAR" />
+    <result column="choose_attr_value" property="chooseAttrValue" jdbcType="VARCHAR" />
+    <result column="order_item_id" property="orderItemId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, choose_attr, choose_attr_value, order_item_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_itme_attr
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_itme_attr
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.model.OrderItmeAttr" >
+    insert into order_itme_attr (id, choose_attr, choose_attr_value, 
+      order_item_id)
+    values (#{id,jdbcType=INTEGER}, #{chooseAttr,jdbcType=VARCHAR}, #{chooseAttrValue,jdbcType=VARCHAR}, 
+      #{orderItemId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.OrderItmeAttr" >
+    insert into order_itme_attr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="chooseAttr != null" >
+        choose_attr,
+      </if>
+      <if test="chooseAttrValue != null" >
+        choose_attr_value,
+      </if>
+      <if test="orderItemId != null" >
+        order_item_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="chooseAttr != null" >
+        #{chooseAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="chooseAttrValue != null" >
+        #{chooseAttrValue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.OrderItmeAttr" >
+    update order_itme_attr
+    <set >
+      <if test="chooseAttr != null" >
+        choose_attr = #{chooseAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="chooseAttrValue != null" >
+        choose_attr_value = #{chooseAttrValue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItemId != null" >
+        order_item_id = #{orderItemId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.OrderItmeAttr" >
+    update order_itme_attr
+    set choose_attr = #{chooseAttr,jdbcType=VARCHAR},
+      choose_attr_value = #{chooseAttrValue,jdbcType=VARCHAR},
+      order_item_id = #{orderItemId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

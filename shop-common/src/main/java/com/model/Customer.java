@@ -1,0 +1,145 @@
+package com.model;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class Customer {
+    private Integer id;
+
+    private String username;
+
+    private String password;
+
+    private String truename;
+
+    private String sex;
+
+    private String telephone;
+
+    private String email;
+
+    private String birthday;
+
+    private String vipLevel;
+
+    private String headImg;
+
+    private String payPassword;
+
+    private String idCard;
+
+    private String nickname;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public String getTruename() {
+        return truename;
+    }
+
+    public void setTruename(String truename) {
+        this.truename = truename == null ? null : truename.trim();
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone == null ? null : telephone.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday == null ? null : birthday.trim();
+    }
+
+    public String getVipLevel() {
+        return vipLevel;
+    }
+
+    public void setVipLevel(String vipLevel) {
+        this.vipLevel = vipLevel == null ? null : vipLevel.trim();
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg == null ? null : headImg.trim();
+    }
+
+    public String getPayPassword() {
+        return payPassword;
+    }
+
+    public void setPayPassword(String payPassword) {
+        this.payPassword = payPassword == null ? null : payPassword.trim();
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard == null ? null : idCard.trim();
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", username=" + username + ", password=" + password + ", truename=" + truename
+				+ ", sex=" + sex + ", telephone=" + telephone + ", email=" + email + ", birthday=" + birthday
+				+ ", vipLevel=" + vipLevel + ", headImg=" + headImg + ", payPassword=" + payPassword + ", idCard="
+				+ idCard + ", nickname=" + nickname + "]";
+	}
+    
+}

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ProductSkuMapper">
+	<resultMap id="BaseResultMap" type="com.model.ProductSku">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="sku_name" property="skuName" jdbcType="VARCHAR" />
+		<result column="sku_id" property="skuId" jdbcType="VARCHAR" />
+		<result column="product_stock" property="productStock"
+			jdbcType="INTEGER" />
+		<result column="product_price" property="productPrice"
+			jdbcType="DECIMAL" />
+		<result column="product_id" property="productId" jdbcType="INTEGER" />
+		<result column="product_sale_price" property="productSalePrice"
+			jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, sku_name, sku_id, product_stock, product_price, product_id,
+		product_sale_price
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from product_sku
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from product_sku
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.model.ProductSku">
+		insert into product_sku (id, sku_name, sku_id,
+		product_stock, product_price, product_id,
+		product_sale_price)
+		values (#{id,jdbcType=INTEGER}, #{skuName,jdbcType=VARCHAR},
+		#{skuId,jdbcType=VARCHAR},
+		#{productStock,jdbcType=INTEGER}, #{productPrice,jdbcType=DECIMAL}, #{productId,jdbcType=INTEGER},
+		#{productSalePrice,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective" parameterType="com.model.ProductSku">
+		insert into product_sku
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="skuName != null">
+				sku_name,
+			</if>
+			<if test="skuId != null">
+				sku_id,
+			</if>
+			<if test="productStock != null">
+				product_stock,
+			</if>
+			<if test="productPrice != null">
+				product_price,
+			</if>
+			<if test="productId != null">
+				product_id,
+			</if>
+			<if test="productSalePrice != null">
+				product_sale_price,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="skuName != null">
+				#{skuName,jdbcType=VARCHAR},
+			</if>
+			<if test="skuId != null">
+				#{skuId,jdbcType=VARCHAR},
+			</if>
+			<if test="productStock != null">
+				#{productStock,jdbcType=INTEGER},
+			</if>
+			<if test="productPrice != null">
+				#{productPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=INTEGER},
+			</if>
+			<if test="productSalePrice != null">
+				#{productSalePrice,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.model.ProductSku">
+		update product_sku
+		<set>
+			<if test="skuName != null">
+				sku_name = #{skuName,jdbcType=VARCHAR},
+			</if>
+			<if test="skuId != null">
+				sku_id = #{skuId,jdbcType=VARCHAR},
+			</if>
+			<if test="productStock != null">
+				product_stock = #{productStock,jdbcType=INTEGER},
+			</if>
+			<if test="productPrice != null">
+				product_price = #{productPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="productId != null">
+				product_id = #{productId,jdbcType=INTEGER},
+			</if>
+			<if test="productSalePrice != null">
+				product_sale_price = #{productSalePrice,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.model.ProductSku">
+		update product_sku
+		set sku_name = #{skuName,jdbcType=VARCHAR},
+		sku_id = #{skuId,jdbcType=VARCHAR},
+		product_stock = #{productStock,jdbcType=INTEGER},
+		product_price = #{productPrice,jdbcType=DECIMAL},
+		product_id = #{productId,jdbcType=INTEGER},
+		product_sale_price = #{productSalePrice,jdbcType=DECIMAL}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getpsk" resultType="com.model.ProductSku"
+		parameterType="com.model.ProductSku">
+		select * from product_sku where sku_id = #{skuId} and sku_name=#{skuName} and
+		product_id =#{productId}
+	</select>
+</mapper>

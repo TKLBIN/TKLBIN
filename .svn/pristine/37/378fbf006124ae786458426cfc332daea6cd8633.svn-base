@@ -1,0 +1,19 @@
+package com.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dao.AdminUserMapper;
+import com.model.AdminUser;
+import com.service.AdminService;
+
+@Service
+public class AdminServiceImpl implements AdminService {
+	@Autowired
+	private AdminUserMapper adminMapper;
+	public AdminUser dologin(AdminUser adminUser) {
+		AdminUser user = adminMapper.selectToLogin(adminUser);
+		return user;
+	}
+
+}

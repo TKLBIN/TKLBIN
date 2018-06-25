@@ -1,0 +1,41 @@
+package com.service.impl.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dao.ProductAttrMapper;
+import com.model.ProductAttr;
+import com.service.impl.AttrService;
+@Service
+public class AttrServiceImpl implements AttrService {
+
+	@Autowired
+	private ProductAttrMapper productAttrMapper;
+	@Override
+	public List<ProductAttr> selAllAttr(ProductAttr productAttr) {
+		List<ProductAttr> productAttrlist=productAttrMapper.selectAll(productAttr);
+		return productAttrlist;
+	}
+
+	@Override
+	public ProductAttr updateProductAttr(ProductAttr productAttr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean upProductAttr(ProductAttr productAttr) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteById(ProductAttr productAttr) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+
+}

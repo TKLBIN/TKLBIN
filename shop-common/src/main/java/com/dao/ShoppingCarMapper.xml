@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ShoppingCarMapper">
+	<resultMap id="BaseResultMap" type="com.model.ShoppingCar">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="customer_id" property="customerId" jdbcType="INTEGER" />
+		<result column="product_id" property="productId" jdbcType="INTEGER" />
+		<result column="buy_num" property="buyNum" jdbcType="INTEGER" />
+		<result column="product_price" property="productPrice"
+			jdbcType="DECIMAL" />
+		<result column="sum_price" property="sumPrice" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, customer_id, product_id, buy_num, product_price, sum_price
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from shopping_car
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shopping_car
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.model.ShoppingCar">
+		insert into shopping_car (id, customer_id, product_id,
+		buy_num, product_price, sum_price
+		)
+		values (#{id,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER},
+		#{productId,jdbcType=INTEGER},
+		#{buyNum,jdbcType=INTEGER}, #{productPrice,jdbcType=DECIMAL}, #{sumPrice,jdbcType=DECIMAL}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.model.ShoppingCar">
+		insert into shopping_car
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="customerId != null">
+				customer_id,
+			</if>
+			<if test="productId != null">
+				product_id,
+			</if>
+			<if test="buyNum != null">
+				buy_num,
+			</if>
+			<if test="productPrice != null">
+				product_price,
+			</if>
+			<if test="sumPrice != null">
+				sum_price,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="customerId != null">
+				#{customerId,jdbcType=INTEGER},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=INTEGER},
+			</if>
+			<if test="buyNum != null">
+				#{buyNum,jdbcType=INTEGER},
+			</if>
+			<if test="productPrice != null">
+				#{productPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="sumPrice != null">
+				#{sumPrice,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.model.ShoppingCar">
+		update shopping_car
+		<set>
+			<if test="customerId != null">
+				customer_id = #{customerId,jdbcType=INTEGER},
+			</if>
+			<if test="productId != null">
+				product_id = #{productId,jdbcType=INTEGER},
+			</if>
+			<if test="buyNum != null">
+				buy_num = #{buyNum,jdbcType=INTEGER},
+			</if>
+			<if test="productPrice != null">
+				product_price = #{productPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="sumPrice != null">
+				sum_price = #{sumPrice,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.model.ShoppingCar">
+		update shopping_car
+		set customer_id = #{customerId,jdbcType=INTEGER},
+		product_id = #{productId,jdbcType=INTEGER},
+		buy_num = #{buyNum,jdbcType=INTEGER},
+		product_price = #{productPrice,jdbcType=DECIMAL},
+		sum_price = #{sumPrice,jdbcType=DECIMAL}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<insert id="insertCar" parameterType="com.model.ShoppingCar">
+		insert into shopping_car
+		 (customer_id,product_id,buy_num,product_price,sum_price)
+		  VALUES (#{customerId}, #{productId}, #{buyNum},#{productPrice}, #{sumPrice})
+	</insert>
+	
+	<select id="getShopCarId" resultType="int">
+		select MAX(id) from shopping_car
+	</select>
+	<insert id="insertCarTable" parameterType="list">
+		INSERT INTO shopping_car_attr
+				(choose_attr_value,product_id, choose_attr) VALUES
+			<foreach collection="list" item="l" separator=","> 
+		 		 (#{l.chooseAttrValue},#{l.productId},#{l.chooseAttr})
+			 </foreach>
+	</insert>
+	
+	
+	
+</mapper>

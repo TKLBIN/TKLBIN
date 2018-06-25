@@ -1,0 +1,23 @@
+package com.model;
+
+public class ProductAttr {
+    private Integer id;
+
+    private String attrName;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getAttrName() {
+        return attrName;
+    }
+
+    public void setAttrName(String attrName) {
+        this.attrName = attrName == null ? null : attrName.trim();
+    }
+}

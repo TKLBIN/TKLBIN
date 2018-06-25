@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ShopAddressMapper">
+	<resultMap id="BaseResultMap" type="com.model.ShopAddress">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="people_name" property="peopleName" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="place" property="place" jdbcType="VARCHAR" />
+		<result column="address_detail" property="addressDetail"
+			jdbcType="VARCHAR" />
+		<result column="is_default" property="isDefault" jdbcType="INTEGER" />
+		<result column="customer_id" property="customerId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, people_name, telephone, place, address_detail,
+		is_default,
+		customer_id
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from shop_address
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		shop_address
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.model.ShopAddress">
+		insert into shop_address (id,
+		people_name, telephone,
+		place, address_detail, is_default,
+		customer_id)
+		values (#{id,jdbcType=INTEGER}, #{peopleName,jdbcType=VARCHAR},
+		#{telephone,jdbcType=VARCHAR},
+		#{place,jdbcType=VARCHAR},
+		#{addressDetail,jdbcType=VARCHAR}, #{isDefault,jdbcType=INTEGER},
+		#{customerId,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.model.ShopAddress">
+		insert into shop_address
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="peopleName != null">
+				people_name,
+			</if>
+			<if test="telephone != null">
+				telephone,
+			</if>
+			<if test="place != null">
+				place,
+			</if>
+			<if test="addressDetail != null">
+				address_detail,
+			</if>
+			<if test="isDefault != null">
+				is_default,
+			</if>
+			<if test="customerId != null">
+				customer_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="peopleName != null">
+				#{peopleName,jdbcType=VARCHAR},
+			</if>
+			<if test="telephone != null">
+				#{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="place != null">
+				#{place,jdbcType=VARCHAR},
+			</if>
+			<if test="addressDetail != null">
+				#{addressDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				#{isDefault,jdbcType=INTEGER},
+			</if>
+			<if test="customerId != null">
+				#{customerId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.model.ShopAddress">
+		update shop_address
+		<set>
+			<if test="peopleName != null">
+				people_name = #{peopleName,jdbcType=VARCHAR},
+			</if>
+			<if test="telephone != null">
+				telephone = #{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="place != null">
+				place = #{place,jdbcType=VARCHAR},
+			</if>
+			<if test="addressDetail != null">
+				address_detail = #{addressDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				is_default = #{isDefault,jdbcType=INTEGER},
+			</if>
+			<if test="customerId != null">
+				customer_id = #{customerId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.model.ShopAddress">
+		update
+		shop_address
+		set people_name = #{peopleName,jdbcType=VARCHAR},
+		telephone = #{telephone,jdbcType=VARCHAR},
+		place =
+		#{place,jdbcType=VARCHAR},
+		address_detail =
+		#{addressDetail,jdbcType=VARCHAR},
+		is_default =
+		#{isDefault,jdbcType=INTEGER},
+		customer_id =
+		#{customerId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectList" resultType="com.model.ShopAddress"
+		parameterType="com.model.Customer">
+		select * from shop_address
+		<if test="id!=null">
+			where customer_id = #{id} order by is_default desc
+		</if>
+	</select>
+	<insert id="insertAdd" parameterType="com.model.ShopAddress">
+		insert shop_address
+		(people_name,telephone,place,address_detail,is_default,customer_id)
+		values(#{peopleName},#{telephone},#{place},#{addressDetail},0,#{customerId})
+	</insert>
+	<update id="upAdd" parameterType="com.model.ShopAddress">
+		update shop_address
+		<set>
+			<if test="peopleName!=null and peopleName!=''">
+				people_name=#{peopleName},
+			</if>
+			<if test="telephone!=null and telephone!=''">
+				telephone=#{telephone},
+			</if>
+			<if test="place!=null and place!=''">
+				place=#{place},
+			</if>
+			<if test="addressDetail!=null and addressDetail!=''">
+				address_detail = #{addressDetail},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="setmo" parameterType="com.model.ShopAddress">
+		update shop_address
+		<set>
+			<if test="id!=null">
+				is_default = 1,
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<update id="qumo" parameterType="com.model.ShopAddress">
+		update shop_address
+		<set>
+			<if test="id!=null">
+				is_default = 0,
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<select id="selectByCusIdAndDau" resultType="ShopAddress"
+		parameterType="Customer">
+		select
+		<include refid="Base_Column_List" />
+		from shop_address
+		where customer_id = #{id,jdbcType=INTEGER} and is_default=1
+	</select>
+</mapper>

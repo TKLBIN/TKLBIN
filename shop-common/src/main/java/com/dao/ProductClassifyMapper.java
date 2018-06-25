@@ -1,0 +1,32 @@
+package com.dao;
+
+import java.util.List;
+
+import com.model.ProductClassify;
+
+public interface ProductClassifyMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(ProductClassify record);
+
+    int insertSelective(ProductClassify record);
+
+    ProductClassify selectByPrimaryKey(Integer id);
+    
+    ProductClassify selectById(ProductClassify productClassify);
+    
+    List<ProductClassify> selectAll1(ProductClassify productClassify);
+    List<ProductClassify> selectClassify(ProductClassify productClassify);
+    
+    int updateByPrimaryKeySelective(ProductClassify record);
+
+    int updateByPrimaryKey(ProductClassify record);
+    
+    List<ProductClassify>  select(ProductClassify productClassify);
+    
+    int selectDelete(ProductClassify productClassify);
+    
+    List<ProductClassify> selectAll();
+    
+    ProductClassify selectSub(Integer id);
+}

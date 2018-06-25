@@ -1,0 +1,130 @@
+package com.model;
+
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+public class Orders {
+    private Integer id;
+
+    private String orderNo;
+
+    private String orderStatus;
+
+    private BigDecimal orderPrcie;
+
+    private BigDecimal payPrice;
+
+    private Date createTime;
+
+    private Date payTime;
+
+    private Integer customerId;
+
+    private String expressName;
+
+    private BigDecimal expressPrice;
+    
+    private List<Product> productList;
+    
+    
+
+    public List<Product> getProductList() {
+		return productList;
+	}
+
+	public void setProductList(List<Product> productList) {
+		this.productList = productList;
+	}
+
+	public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo == null ? null : orderNo.trim();
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus == null ? null : orderStatus.trim();
+    }
+
+    public BigDecimal getOrderPrcie() {
+        return orderPrcie;
+    }
+
+    public void setOrderPrcie(BigDecimal orderPrcie) {
+        this.orderPrcie = orderPrcie;
+    }
+
+    public BigDecimal getPayPrice() {
+        return payPrice;
+    }
+
+    public void setPayPrice(BigDecimal payPrice) {
+        this.payPrice = payPrice;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getExpressName() {
+        return expressName;
+    }
+
+    public void setExpressName(String expressName) {
+        this.expressName = expressName == null ? null : expressName.trim();
+    }
+
+    public BigDecimal getExpressPrice() {
+        return expressPrice;
+    }
+
+    public void setExpressPrice(BigDecimal expressPrice) {
+        this.expressPrice = expressPrice;
+    }
+
+	@Override
+	public String toString() {
+		return "Orders [id=" + id + ", orderNo=" + orderNo + ", orderStatus=" + orderStatus + ", orderPrcie="
+				+ orderPrcie + ", payPrice=" + payPrice + ", createTime=" + createTime + ", payTime=" + payTime
+				+ ", customerId=" + customerId + ", expressName=" + expressName + ", expressPrice=" + expressPrice
+				+ ", productList=" + productList + "]";
+	}
+    
+    
+}

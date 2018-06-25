@@ -1,0 +1,109 @@
+package com.controller;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+
+import java.util.List;
+import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.model.Customer;
+import com.model.Orders;
+import com.model.ShopAddress;
+import com.service.impl.OrderItemSericeImpl;
+import com.service.impl.OrderServiceImpl;
+
+@Controller
+@RequestMapping("/orders")
+public class OrderController {
+	@Autowired
+	private OrderServiceImpl orderSerImpl;
+	@Autowired
+	private OrderItemSericeImpl orderItemSerImpl;
+
+	
+	@RequestMapping("toOrder")
+	public String toOrder(ModelMap modelMap,HttpSession session){
+		Customer cus=(Customer) session.getAttribute("user");
+		Orders o=new Orders();
+		o.setCustomerId(1);
+		List<Orders> listOrder=orderSerImpl.selectByCusId(o);
+		System.out.println(listOrder);
+		
+		modelMap.addAttribute("listOrder", listOrder);
+		
+		return "/person/order";
+	}
+	/**
+	 * 查看订单详情
+	 * @param orders
+	 * @param modelMap
+	 * @return
+	 */
+	@RequestMapping("toOrderInfo")
+	public String toOrderInfo(Orders orders,ModelMap modelMap){
+		System.out.println(orderSerImpl.selectByCusId(orders).get(0));
+		Customer cus1=new Customer();
+		cus1.setId(1);
+		ShopAddress  shopAddress= orderSerImpl.selectByCusIdAndDau(cus1);
+		System.out.println("我是地址"+shopAddress);
+		modelMap.addAttribute("shopAddress", shopAddress);
+		modelMap.addAttribute("orders", orderSerImpl.selectByCusId(orders).get(0));
+		return "/person/orderinfo";
+		
+	}
+	/**
+	 * 删除订单
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("delOrder")
+	public String delOrder(@RequestParam(value="id") Integer id){
+		if(orderSerImpl.deleteByPrimaryKey(id)){
+			if(orderItemSerImpl.deleteByOrderId(id))
+			return "s";
+		}
+		return "e";
+		
+	}
+	/**
+	 * 更改订单状态
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("toUpdateSta")
+	public String toUpdateSta(@RequestParam(value="id") Integer id){
+		orderSerImpl.updateOrderStatusById(id);
+		return "s";
+	}
+	/**
+	 * 确认收货
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("confirmOrder")
+	public String confirmOrder(@RequestParam(value="id") Integer id){
+		
+		if(orderSerImpl.confirmOrder(id)){
+			return "s";
+		}
+		return "e";
+	}
+	/**
+	 * 跳转评价页面
+	 * @param id
+	 * @return
+	 */
+    @RequestMapping("toAssessPro")
+    public String toAssessPro(Orders orders,ModelMap modelMap){
+    	modelMap.addAttribute("order", orderSerImpl.selectByCusId(orders).get(0));
+		return "/person/commentlist";
+    }
+}
